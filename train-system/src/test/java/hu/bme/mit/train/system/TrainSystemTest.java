@@ -9,6 +9,9 @@ import hu.bme.mit.train.interfaces.TrainSensor;
 import hu.bme.mit.train.interfaces.TrainUser;
 import hu.bme.mit.train.system.TrainSystem;
 
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
+
 public class TrainSystemTest {
 
 	TrainController controller;
@@ -32,13 +35,13 @@ public class TrainSystemTest {
 		Assert.assertEquals(0, controller.getReferenceSpeed());
 		
 		user.overrideJoystickPosition(5);
-
-		controller.followSpeed();
-		Assert.assertEquals(5, controller.getReferenceSpeed());
-		controller.followSpeed();
-		Assert.assertEquals(10, controller.getReferenceSpeed());
-		controller.followSpeed();
-		Assert.assertEquals(10, controller.getReferenceSpeed());
+		try {
+			TimeUnit.MILLISECONDS.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Assert.assertNotEquals(0, controller.getReferenceSpeed());
+		System.out.println(controller.getReferenceSpeed());
 	}
 
 	@Test
